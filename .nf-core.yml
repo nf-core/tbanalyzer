@@ -1,2 +1,18 @@
+bump_version: null
+lint: null
+nf_core_version: 3.0.2
+org_path: null
 repository_type: pipeline
-nf_core_version: "2.14.1"
+template:
+  author: "@abhi18av"
+  description: TB-GVAS aims to democratize analysis by providing a comprehensive and
+    user-friendly toolkit for genomic characterization of Mycobacterium tuberculosis
+    (Mtb) pathogens at the species and strain levels
+  force: false
+  is_nfcore: true
+  name: tbanalyzer
+  org: nf-core
+  outdir: .
+  skip_features: null
+  version: 1.0dev
+update: null
