@@ -51,7 +51,7 @@ workflow NFCORE_TBANALYZER {
     // SELECT MODE:
 
     // MTBSEQ run mode
-    if(params.mode == "mtbseq") {
+    if(params.method == "mtbseq") {
        MTBSEQ_NF (
            samplesheet
        )
