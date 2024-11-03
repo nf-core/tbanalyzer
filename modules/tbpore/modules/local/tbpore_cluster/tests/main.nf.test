@@ -1,0 +1,55 @@
+nextflow_process {
+
+    name "Test Process TBPORE_CLUSTER"
+    script "../main.nf"
+    process "TBPORE_CLUSTER"
+
+    setup {
+        run("TBPORE_PROCESS") {
+            script "../../tbpore_process/main.nf"
+
+            params {
+                modules_testdata_base_path = 'https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/'
+            }
+
+            process {
+                """
+
+                input[0] = Channel.of([
+                [ id:'test', single_end:true ],
+                    file(
+                        params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz',
+                        checkIfExists: true
+                    )
+                ])
+
+                input[1] = Channel.of(
+                file("/.tbpore/decontamination_db/remove_contam.map-ont.mmi")
+                )
+                """
+            }
+        }
+    }
+
+    test("sarscov2 single end [fastq]") {
+
+        when {
+            params {
+                // define parameters here. Example:
+                outdir = "tests/results"
+            }
+            process {
+                """
+                // input[0] = TBPORE_PROCESS.out.fa | collect
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert snapshot(process.out).match()
+        }
+
+    }
+
+}
