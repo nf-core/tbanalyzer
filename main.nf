@@ -109,7 +109,7 @@ workflow {
         NFCORE_TBANALYZER.out.multiqc_report
     )
 }
-
+// Everything seemed okay
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     THE END
