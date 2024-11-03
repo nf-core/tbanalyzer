@@ -28,7 +28,7 @@ process TBPORE_PROCESS {
 
     """
     tbpore process $args \\
-        --threads 6 \\
+        --threads $task.cpus \\
         --name $prefix \\
         --db $db \\
         $fastq
