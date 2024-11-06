@@ -16,6 +16,7 @@
 */
 
 include { TBANALYZER  } from './workflows/tbanalyzer'
+include { MTBSEQ_NF    } from './workflows/mtbseqnf'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
 include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
@@ -47,14 +48,26 @@ workflow NFCORE_TBANALYZER {
 
     main:
 
-    //
+    // SELECT MODE:
+
+    // MTBSEQ run mode
+    if(params.mode == "mtbseq") {
+       MTBSEQ_NF (
+           samplesheet
+       )
+       multiqc_report = MTBSEQ_NF.out.multiqc_report
+    }
+
+
+
+
     // WORKFLOW: Run pipeline
     //
-    TBANALYZER (
-        samplesheet
-    )
+    //TBANALYZER (
+    //    samplesheet
+    //)
     emit:
-    multiqc_report = TBANALYZER.out.multiqc_report // channel: /path/to/multiqc_report.html
+    multiqc_report = multiqc_report // channel: /path/to/multiqc_report.html
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
