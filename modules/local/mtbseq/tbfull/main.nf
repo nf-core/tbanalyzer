@@ -4,7 +4,7 @@ process TBFULL {
     label 'error_retry'
 
 
-    conda "bioconda::mtbseq=1.1.0"
+    conda "${moduleDir}/environment.yml"
 
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -30,16 +30,16 @@ process TBFULL {
         path "versions.yml", emit: versions
 
     script:
-        def args = task.ext.args ?: " --minbqual ${params.mtbseq_minbqual} --mincovf ${params.mtbseq_mincovf} --mincovr ${params.mtbseq_mincovr} --minphred ${params.mtbseq_minphred} --minfreq ${params.mtbseq_minfreq} --resilist ${ref_resistance_list} --unambig ${params.mtbseq_unambig} --window ${params.mtbseq_window} --distance ${params.mtbseq_distance}"
+        def args = task.ext.args ?: "--project mtbseqnf --minbqual 13 --mincovf 4 --mincovr 4 --minphred 4 --minfreq 75 --unambig 95 --window 12 --distance 12"
 
         """
 
-        ${params.mtbseq_path} --step TBfull \\
+        MTBseq --step TBfull \\
             --thread ${task.cpus} \\
-            --project ${params.mtbseq_project} \\
             --intregions ${ref_interesting_regions} \\
             --categories ${ref_gene_categories} \\
             --basecalib ${ref_base_quality_recalibration} \\
+            --resilist ${ref_resistance_list} \\
             ${args} \\
         1>>.command.out \\
         2>>.command.err \\
@@ -49,7 +49,7 @@ process TBFULL {
 
        cat <<-END_VERSIONS > versions.yml
        "${task.process}":
-          MTBseq: \$(${params.mtbseq_path} --version | cut -d " " -f 2)
+          MTBseq: \$(MTBseq --version | cut -d " " -f 2)
        END_VERSIONS
 
         """
@@ -58,17 +58,17 @@ process TBFULL {
         """
         sleep \$[ ( \$RANDOM % 10 )  + 1 ]s
 
-        echo " ${params.mtbseq_path} --step TBfull \
+        echo " MTBseq --step TBfull \
             --thread ${task.cpus} \
-            --project ${params.mtbseq_project} \
-            --minbqual ${params.mtbseq_minbqual} \
-            --mincovf ${params.mtbseq_mincovf} \
-            --mincovr ${params.mtbseq_mincovr} \
-            --minphred ${params.mtbseq_minphred} \
-            --minfreq ${params.mtbseq_minfreq} \
-            --unambig ${params.mtbseq_unambig} \
-            --window ${params.mtbseq_window} \
-            --distance ${params.mtbseq_distance} \
+            --project mtbseqnf \
+            --minbqual 13 \
+            --mincovf 4 \
+            --mincovr 4 \
+            --minphred 4 \
+            --minfreq 75 \
+            --unambig 95 \
+            --window 12 \
+            --distance 12 \
             --resilist ${ref_resistance_list} \
             --intregions ${ref_interesting_regions} \
             --categories ${ref_gene_categories} \
@@ -86,8 +86,8 @@ process TBFULL {
         touch Bam/stub.bai
         touch Bam/stub.bamlog
         mkdir Called
-        touch Called/stub.gatk_position_uncovered_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_outmode000.tab
-        touch Called/stub.gatk_position_variants_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_outmode000.tab
+        touch Called/stub.gatk_position_uncovered_cf4_cr4_fr75_ph4_outmode000.tab
+        touch Called/stub.gatk_position_variants_cf4_cr4_fr75_ph4_outmode000.tab
         mkdir Mpileup
         touch Mpileup/stub.gatk.mpileup
         touch Mpileup/stub.gatk.mpileuplog
@@ -97,6 +97,8 @@ process TBFULL {
         touch Position_Tables/stub.gatk_position_table.tab
         mkdir Statistics
         touch Statistics/Mapping_and_Variant_Statistics.tab
+
+        printf '"%s":\\n    MTBseq: 1.1.0\\n' "${task.process}" > versions.yml
 
         """
 

@@ -32,7 +32,8 @@ workflow QUALITY_CHECK {
     reads_and_meta_ch      = RENAME_FILES.out.meta_and_files
     reads_ch               = RENAME_FILES.out.files
     multiqc_files          = FASTQC.out.zip.collect{it[1]}
-    versions               = FASTQC.out.versions.first()
     derived_cohort_tsv     = samples_tsv_file
+    // NOTE: software versions are emitted via the `versions` topic (nf-core 4.x),
+    // collected centrally in the MTBSEQ_NF workflow.
 
 }

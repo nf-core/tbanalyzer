@@ -2,7 +2,7 @@ process TBSTATS {
     tag "cohort"
     label 'process_single_high_memory'
 
-    conda "bioconda::mtbseq=1.1.0"
+    conda "${moduleDir}/environment.yml"
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mtbseq:1.1.0--hdfd78af_0' :
@@ -20,17 +20,18 @@ process TBSTATS {
         path("Statistics/Mapping_and_Variant_Statistics.tab"), emit: statistics
 
     script:
+        def args = task.ext.args ?: "--project mtbseqnf"
 
         """
         mkdir Statistics
 
-        ${params.mtbseq_path} --step TBstats \\
+        MTBseq --step TBstats \\
             --threads ${task.cpus} \\
-            --project ${params.mtbseq_project} \\
             --resilist ${ref_resistance_list} \\
             --intregions ${ref_interesting_regions} \\
             --categories ${ref_gene_categories} \\
             --basecalib ${ref_base_quality_recalibration} \\
+            ${args} \\
         1>>.command.out \\
         2>>.command.err \\
         || true               # NOTE This is a hack to overcome the exit status 1 thrown by mtbseq
@@ -42,9 +43,9 @@ process TBSTATS {
         """
         sleep \$[ ( \$RANDOM % 10 )  + 1 ]s
 
-        echo "${params.mtbseq_path} --step TBstats \
+        echo "MTBseq --step TBstats \
             --threads ${task.cpus} \
-            --project ${params.mtbseq_project} \
+            --project mtbseqnf \
             --resilist ${ref_resistance_list} \
             --intregions ${ref_interesting_regions} \
             --categories ${ref_gene_categories} \

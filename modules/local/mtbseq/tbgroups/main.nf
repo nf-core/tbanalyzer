@@ -2,7 +2,7 @@ process TBGROUPS {
     tag "cohort"
     label 'process_single'
 
-    conda "bioconda::mtbseq=1.1.0"
+    conda "${moduleDir}/environment.yml"
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mtbseq:1.1.0--hdfd78af_0' :
@@ -25,14 +25,13 @@ process TBGROUPS {
 
 
     script:
-        def args = task.ext.args ?: "--distance ${params.mtbseq_distance}"
+        def args = task.ext.args ?: "--project mtbseqnf --distance 12"
         """
         mkdir Groups
 
-        ${params.mtbseq_path} --step TBgroups \\
+        MTBseq --step TBgroups \\
             --threads ${task.cpus} \\
             --samples ${samplesheet_tsv} \\
-            --project ${params.mtbseq_project} \\
             --resilist ${ref_resistance_list} \\
             --intregions ${ref_interesting_regions} \\
             --categories ${ref_gene_categories} \\
@@ -46,27 +45,29 @@ process TBGROUPS {
 
        cat <<-END_VERSIONS > versions.yml
        "${task.process}":
-          MTBseq: \$(${params.mtbseq_path} --version | cut -d " " -f 2)
+          MTBseq: \$(MTBseq --version | cut -d " " -f 2)
        END_VERSIONS
         """
 
     stub:
         """
-        echo "${params.mtbseq_path} --step TBgroups \
+        echo "MTBseq --step TBgroups \
             --threads ${task.cpus} \
             --samples ${samplesheet_tsv} \
-            --project ${params.mtbseq_project} \
+            --project mtbseqnf \
             --resilist ${ref_resistance_list} \
             --intregions ${ref_interesting_regions} \
             --categories ${ref_gene_categories} \
-            --distance ${params.mtbseq_distance} \
+            --distance 12 \
             --basecalib ${ref_base_quality_recalibration}"
 
         sleep \$[ ( \$RANDOM % 10 )  + 1 ]s
 
         mkdir Groups
-        touch Groups/${params.mtbseq_project}_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo_w12.matrix
-        touch Groups/${params.mtbseq_project}_joint_cf4_cr4_fr75_ph4_samples35_amended_u95_phylo_w12_d12.groups
+        touch Groups/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo_w12.matrix
+        touch Groups/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples35_amended_u95_phylo_w12_d12.groups
+
+        printf '"%s":\\n    MTBseq: 1.1.0\\n' "${task.process}" > versions.yml
 
         """
 }

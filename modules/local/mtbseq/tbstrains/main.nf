@@ -2,7 +2,7 @@ process TBSTRAINS {
     tag "cohort"
     label 'process_single'
 
-    conda "bioconda::mtbseq=1.1.0"
+    conda "${moduleDir}/environment.yml"
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mtbseq:1.1.0--hdfd78af_0' :
@@ -18,14 +18,13 @@ process TBSTRAINS {
         path("Classification/Strain_Classification.tab"), emit: classification
 
     script:
-        def args = task.ext.args ?: "--mincovf ${params.mtbseq_mincovf} --mincovr ${params.mtbseq_mincovr} --minphred ${params.mtbseq_minphred} --minfreq ${params.mtbseq_minfreq}"
+        def args = task.ext.args ?: "--project mtbseqnf --mincovf 4 --mincovr 4 --minphred 4 --minfreq 75"
 
         """
         mkdir Classification
 
-        ${params.mtbseq_path} --step TBstrains \\
+        MTBseq --step TBstrains \\
             --threads ${task.cpus} \\
-            --project ${params.mtbseq_project} \\
             --resilist ${ref_resistance_list} \\
             --intregions ${ref_interesting_regions} \\
             --categories ${ref_gene_categories} \\
@@ -43,13 +42,13 @@ process TBSTRAINS {
         """
         sleep \$[ ( \$RANDOM % 10 )  + 1 ]s
 
-        echo "${params.mtbseq_path} --step TBstrains \
+        echo "MTBseq --step TBstrains \
             --threads ${task.cpus} \
-            --project ${params.mtbseq_project} \
-            --mincovf ${params.mtbseq_mincovf} \
-            --mincovr ${params.mtbseq_mincovr} \
-            --minphred ${params.mtbseq_minphred} \
-            --minfreq ${params.mtbseq_minfreq} \
+            --project mtbseqnf \
+            --mincovf 4 \
+            --mincovr 4 \
+            --minphred 4 \
+            --minfreq 75 \
             --resilist ${ref_resistance_list} \
             --intregions ${ref_interesting_regions} \
             --categories ${ref_gene_categories} \

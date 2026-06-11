@@ -2,7 +2,7 @@ process TBAMEND {
     tag "cohort"
     label 'process_single'
 
-    conda "bioconda::mtbseq=1.1.0"
+    conda "${moduleDir}/environment.yml"
 
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -20,12 +20,12 @@ process TBAMEND {
 
     script:
 
-    def args = task.ext.args ?: "--project ${params.mtbseq_project} --mincovf ${params.mtbseq_mincovf} --mincovr ${params.mtbseq_mincovr} --minphred ${params.mtbseq_minphred} --minfreq ${params.mtbseq_minfreq} --unambig ${params.mtbseq_unambig} --window ${params.mtbseq_window} --distance ${params.mtbseq_distance}"
+    def args = task.ext.args ?: "--project mtbseqnf --mincovf 4 --mincovr 4 --minphred 4 --minfreq 75 --unambig 95 --window 12 --distance 12"
 
         """
         mkdir Amend
 
-        ${params.mtbseq_path} --step TBamend \\
+        MTBseq --step TBamend \\
             --threads ${task.cpus} \\
             --samples ${samplesheet_tsv} \\
             --resilist ${ref_resistance_list} \\
@@ -44,17 +44,17 @@ process TBAMEND {
         """
         sleep \$[ ( \$RANDOM % 10 )  + 1 ]s
 
-        echo " ${params.mtbseq_path} --step TBamend \
+        echo " MTBseq --step TBamend \
             --threads ${task.cpus} \
             --samples ${samplesheet_tsv} \
-            --project ${params.mtbseq_project} \
-            --mincovf ${params.mtbseq_mincovf} \
-            --mincovr ${params.mtbseq_mincovr} \
-            --minphred ${params.mtbseq_minphred} \
-            --minfreq ${params.mtbseq_minfreq} \
-            --unambig ${params.mtbseq_unambig} \
-            --window ${params.mtbseq_window} \
-            --distance ${params.mtbseq_distance} \
+            --project mtbseqnf \
+            --mincovf 4 \
+            --mincovr 4 \
+            --minphred 4 \
+            --minfreq 75 \
+            --unambig 95 \
+            --window 12 \
+            --distance 12 \
             --resilist ${ref_resistance_list} \
             --intregions ${ref_interesting_regions} \
             --categories ${ref_gene_categories} \
@@ -62,14 +62,14 @@ process TBAMEND {
 
 
         mkdir Amend
-        touch Amend/${params.mtbseq_project}_joint_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_samples5_amended.tab
-        touch Amend/${params.mtbseq_project}_joint_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_samples5_amended_u95_phylo.tab
-        touch Amend/${params.mtbseq_project}_joint_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_samples5_amended_u95_phylo.fasta
-        touch Amend/${params.mtbseq_project}_joint_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_samples5_amended_u95_phylo.plainIDs.fasta
-        touch Amend/${params.mtbseq_project}_joint_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_samples5_amended_u95_phylo_w12.tab
-        touch Amend/${params.mtbseq_project}_joint_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_samples5_amended_u95_phylo_w12.fasta
-        touch Amend/${params.mtbseq_project}_joint_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_samples5_amended_u95_phylo_w12.plainIDs.fasta
-        touch Amend/${params.mtbseq_project}_joint_cf${params.mtbseq_mincovf}_cr${params.mtbseq_mincovr}_fr${params.mtbseq_minfreq}_ph${params.mtbseq_minphred}_samples5_amended_u95_phylo_w12_removed.tab
+        touch Amend/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended.tab
+        touch Amend/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo.tab
+        touch Amend/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo.fasta
+        touch Amend/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo.plainIDs.fasta
+        touch Amend/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo_w12.tab
+        touch Amend/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo_w12.fasta
+        touch Amend/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo_w12.plainIDs.fasta
+        touch Amend/mtbseqnf_joint_cf4_cr4_fr75_ph4_samples5_amended_u95_phylo_w12_removed.tab
 
         """
 

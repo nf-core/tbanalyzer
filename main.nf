@@ -48,20 +48,22 @@ workflow NFCORE_TBANALYZER {
 
     main:
 
+    multiqc_report = Channel.empty()
+
     // SELECT MODE:
 
     // MTBSEQ run mode
-    if(params.mode == "mtbseq") {
-       MTBSEQ_NF (
-           samplesheet
-       )
-       multiqc_report = MTBSEQ_NF.out.multiqc_report
+    if (params.mode == "mtbseq") {
+        MTBSEQ_NF (
+            samplesheet
+        )
+        multiqc_report = MTBSEQ_NF.out.multiqc_report
+    }
+    else {
+        error("Unknown --mode '${params.mode}'. Supported modes: 'mtbseq'.")
     }
 
-
-
-
-    // WORKFLOW: Run pipeline (generic TBANALYZER mode — not yet wired into mode dispatch)
+    // WORKFLOW: Run generic pipeline (TBANALYZER mode — not yet wired into mode dispatch)
     //
     //TBANALYZER (
     //    samplesheet,
