@@ -357,35 +357,35 @@
                 "mtbseq_ref_and_indexes_path": {
                     "type": "string",
                     "format": "directory-path",
-                    "default": "data/references/ref/",
+                    "default": "data/mtbseq-references/ref/",
                     "description": "Directory holding the reference genome and its BWA indexes.",
                     "fa_icon": "fas fa-folder-open"
                 },
                 "mtbseq_resilist": {
                     "type": "string",
                     "format": "file-path",
-                    "default": "data/references/res/MTB_Resistance_Mediating.txt",
+                    "default": "data/mtbseq-references/res/MTB_Resistance_Mediating.txt",
                     "description": "List of known resistance-associated variant positions for resistance prediction.",
                     "fa_icon": "fas fa-file-alt"
                 },
                 "mtbseq_intregions": {
                     "type": "string",
                     "format": "file-path",
-                    "default": "data/references/res/MTB_Extended_Resistance_Mediating.txt",
+                    "default": "data/mtbseq-references/res/MTB_Extended_Resistance_Mediating.txt",
                     "description": "List of interesting regions used for annotation of detected variants.",
                     "fa_icon": "fas fa-file-alt"
                 },
                 "mtbseq_categories": {
                     "type": "string",
                     "format": "file-path",
-                    "default": "data/references/cat/MTB_Gene_Categories.txt",
+                    "default": "data/mtbseq-references/cat/MTB_Gene_Categories.txt",
                     "description": "Gene categories file annotating essential/non-essential genes and repetitive regions (excluded from phylogeny).",
                     "fa_icon": "fas fa-file-alt"
                 },
                 "mtbseq_basecalib": {
                     "type": "string",
                     "format": "file-path",
-                    "default": "data/references/res/MTB_Base_Calibration_List.vcf",
+                    "default": "data/mtbseq-references/res/MTB_Base_Calibration_List.vcf",
                     "description": "VCF of known SNPs used for base quality recalibration.",
                     "fa_icon": "fas fa-file-alt"
                 }
