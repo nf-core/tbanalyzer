@@ -1,5 +1,5 @@
 include { FASTQC                 } from '../../../modules/nf-core/fastqc/main'
-include { RENAME_FILES           } from '../../../modules/local/utils/rename_files.nf'
+include { RENAME_FILES           } from '../../../modules/local/utils/rename_files/main.nf'
 
 
 
