@@ -12,7 +12,7 @@ process TBAMEND {
     input:
         path("Joint/*")
         path(samplesheet_tsv)
-        env(USER)
+        env('USER')
         tuple path(ref_resistance_list), path(ref_interesting_regions), path(ref_gene_categories), path(ref_base_quality_recalibration)
 
     output:

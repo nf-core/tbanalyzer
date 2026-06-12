@@ -13,7 +13,7 @@
                 "errorMessage": "Sample name must be provided and cannot contain spaces",
                 "meta": ["id"]
             },
-             "library": {
+            "library": {
                 "type": "string",
                 "pattern": "^\\S+$",
                 "errorMessage": "Library preparation protocol name must be provided and cannot contain spaces",

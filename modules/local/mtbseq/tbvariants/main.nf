@@ -11,7 +11,7 @@ process TBVARIANTS {
 
     input:
         tuple val(meta), path("Position_Tables/*")
-        env(USER)
+        env('USER')
         tuple path(ref_resistance_list), path(ref_interesting_regions), path(ref_gene_categories), path(ref_base_quality_recalibration)
 
     output:
