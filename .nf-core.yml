@@ -1,5 +1,8 @@
 nf_core_version: 4.0.2
 repository_type: pipeline
+lint:
+  files_unchanged:
+    - .pre-commit-config.yaml
 template:
   author: "@abhi18av"
   description: TB-GVAS aims to democratize analysis by providing a comprehensive and

@@ -30,4 +30,9 @@ repos:
     hooks:
       - id: nextflow-lint
         files: '\.nf$|nextflow\.config$'
+        exclude: |
+          (?x)^(
+              modules/(?!local/).*|
+              subworkflows/(?!local/).*
+          )$
         args: ["-output", "json"]
