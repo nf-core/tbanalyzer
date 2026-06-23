@@ -1,0 +1,122 @@
+{
+    "test_gatk4_indexfeaturefile_vcf": {
+        "content": [
+            "test.genome.vcf.idx",
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_INDEXFEATUREFILE",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-05T16:29:55.703954252"
+    },
+    "test_gatk4_indexfeaturefile_bed_gz": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "genome.bed.gz.tbi:md5,4bc51e2351a6e83f20e13be75861f941"
+                    ]
+                ],
+                "1": [
+                    [
+                        "GATK4_INDEXFEATUREFILE",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ],
+                "index": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "genome.bed.gz.tbi:md5,4bc51e2351a6e83f20e13be75861f941"
+                    ]
+                ],
+                "versions_gatk4": [
+                    [
+                        "GATK4_INDEXFEATUREFILE",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-05T16:29:47.992267902"
+    },
+    "test_gatk4_indexfeaturefile_vcf_gz": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.genome.vcf.gz.tbi:md5,fedd68eaddf8d31257853d9da8325bd3"
+                    ]
+                ],
+                "1": [
+                    [
+                        "GATK4_INDEXFEATUREFILE",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ],
+                "index": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.genome.vcf.gz.tbi:md5,fedd68eaddf8d31257853d9da8325bd3"
+                    ]
+                ],
+                "versions_gatk4": [
+                    [
+                        "GATK4_INDEXFEATUREFILE",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-05T16:30:02.644854301"
+    },
+    "test_gatk4_indexfeaturefile_bed": {
+        "content": [
+            "genome.bed.idx",
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_INDEXFEATUREFILE",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-05T16:30:51.259372358"
+    }
+}

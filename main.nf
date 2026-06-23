@@ -17,6 +17,7 @@
 
 include { TBANALYZER  } from './workflows/tbanalyzer'
 include { MTBSEQ_NF    } from './workflows/mtbseqnf'
+include { MAGMA        } from './workflows/magmanf'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
 include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
@@ -59,8 +60,19 @@ workflow NFCORE_TBANALYZER {
         )
         multiqc_report = MTBSEQ_NF.out.multiqc_report
     }
+    // MAGMA run mode (vendored TORCH-consortium/magma nf-core port, version-isolated)
+    else if (params.mode == "magma") {
+        MAGMA (
+            samplesheet,
+            params.multiqc_config,
+            params.multiqc_logo,
+            params.multiqc_methods_description,
+            params.outdir
+        )
+        multiqc_report = MAGMA.out.multiqc_report
+    }
     else {
-        error("Unknown --mode '${params.mode}'. Supported modes: 'mtbseq'.")
+        error("Unknown --mode '${params.mode}'. Supported modes: 'mtbseq', 'magma'.")
     }
 
     // WORKFLOW: Run generic pipeline (TBANALYZER mode — not yet wired into mode dispatch)

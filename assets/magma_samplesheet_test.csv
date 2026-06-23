@@ -1,0 +1,4 @@
+Study,Sample,Library,Attempt,R1,R2,Flowcell,Lane,Index Sequence
+MAGMA,SRR26331590,1,1,https://zenodo.org/records/20671479/files/SRR26331590_R1.fastq.gz,https://zenodo.org/records/20671479/files/SRR26331590_R2.fastq.gz,UNNAMED,1,ATGCATGC
+MAGMA,SRR26331595,1,1,https://zenodo.org/records/20671479/files/SRR26331595_R1.fastq.gz,https://zenodo.org/records/20671479/files/SRR26331595_R2.fastq.gz,UNNAMED,1,ATGCATGC
+MAGMA,SRR26331599,1,1,https://zenodo.org/records/20671479/files/SRR26331599_R1.fastq.gz,https://zenodo.org/records/20671479/files/SRR26331599_R2.fastq.gz,UNNAMED,1,ATGCATGC

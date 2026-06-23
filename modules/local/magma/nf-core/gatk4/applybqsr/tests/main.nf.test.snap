@@ -1,0 +1,294 @@
+{
+    "sarscov2 - bam - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "cram": [
+                    
+                ],
+                "versions_gatk4": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-21T14:23:01.065595148"
+    },
+    "sarscov2 - bam - intervals": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,5b98435fb9d0a4834bf851a6434c61ee"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bai:md5,8b6774d1c87a315150286c3b241a2545"
+                    ]
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bai:md5,8b6774d1c87a315150286c3b241a2545"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,5b98435fb9d0a4834bf851a6434c61ee"
+                    ]
+                ],
+                "cram": [
+                    
+                ],
+                "versions_gatk4": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-21T14:00:33.289614123"
+    },
+    "sarscov2 - cram": {
+        "content": [
+            "test.cram",
+            "test.cram.bai",
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-21T14:22:34.863325864"
+    },
+    "sarscov2 - bam in, cram out": {
+        "content": [
+            "test.cram",
+            "test.cram.bai",
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-21T14:22:02.246692153"
+    },
+    "sarscov2 - cram - stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.cram.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.cram:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.cram.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bam": [
+                    
+                ],
+                "cram": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.cram:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_gatk4": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-21T14:22:47.71747024"
+    },
+    "sarscov2 - bam": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,e914eacac4dd6a83f91a679e0522a921"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bai:md5,63e3037e38483efdec495797210196a4"
+                    ]
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bai:md5,63e3037e38483efdec495797210196a4"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,e914eacac4dd6a83f91a679e0522a921"
+                    ]
+                ],
+                "cram": [
+                    
+                ],
+                "versions_gatk4": [
+                    [
+                        "GATK4_APPLYBQSR",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-21T14:00:02.109540594"
+    }
+}
