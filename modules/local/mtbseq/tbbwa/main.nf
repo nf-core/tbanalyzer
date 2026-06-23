@@ -2,7 +2,7 @@ process TBBWA {
     tag "${meta.id}"
     label 'process_medium'
 
-    conda "bioconda::mtbseq=1.1.0"
+    conda "${moduleDir}/environment.yml"
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mtbseq:1.1.0--hdfd78af_0' :
@@ -13,7 +13,7 @@ process TBBWA {
 
     input:
         tuple val(meta), path("${meta.id}_${meta.library}_R?.fastq.gz")
-        env(USER)
+        env('USER')
         tuple path(ref_resistance_list), path(ref_interesting_regions), path(ref_gene_categories), path(ref_base_quality_recalibration)
 
     output:
@@ -22,17 +22,18 @@ process TBBWA {
         path("Bam/${meta.id}_${meta.library}*.bam"), emit: bam
 
     script:
+        def args = task.ext.args ?: "--project mtbseqnf"
 
         """
         mkdir Bam
 
-        ${params.mtbseq_path} --step TBbwa \\
+        MTBseq --step TBbwa \\
             --threads ${task.cpus} \\
-            --project ${params.mtbseq_project} \\
             --resilist ${ref_resistance_list} \\
             --intregions ${ref_interesting_regions} \\
             --categories ${ref_gene_categories} \\
             --basecalib ${ref_base_quality_recalibration} \\
+            ${args} \\
         1>>.command.out \\
         2>>.command.err \\
         || true               # NOTE This is a hack to overcome the exit status 1 thrown by mtbseq
@@ -43,9 +44,9 @@ process TBBWA {
     stub:
 
         """
-        echo " ${params.mtbseq_path} --step TBbwa \
+        echo " MTBseq --step TBbwa \
             --threads ${task.cpus} \
-            --project ${params.mtbseq_project} \
+            --project mtbseqnf \
             --resilist ${ref_resistance_list} \
             --intregions ${ref_interesting_regions} \
             --categories ${ref_gene_categories} \

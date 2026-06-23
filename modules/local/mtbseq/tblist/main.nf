@@ -2,7 +2,7 @@ process TBLIST {
     tag "${meta.id}"
     label 'process_single_high_memory'
 
-    conda "bioconda::mtbseq=1.1.0"
+    conda "${moduleDir}/environment.yml"
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mtbseq:1.1.0--hdfd78af_0' :
@@ -11,7 +11,7 @@ process TBLIST {
 
     input:
         tuple val(meta), path("Mpileup/${meta.id}_${meta.library}*.gatk.mpileup")
-        env(USER)
+        env('USER')
         tuple path(ref_resistance_list), path(ref_interesting_regions), path(ref_gene_categories), path(ref_base_quality_recalibration)
 
     output:
@@ -20,13 +20,12 @@ process TBLIST {
         path("Position_Tables/${meta.id}_${meta.library}*.gatk_position_table.tab"), emit: position_table
 
     script:
-        def args = task.ext.args ?: "--minbqual ${params.mtbseq_minbqual}"
+        def args = task.ext.args ?: "--project mtbseqnf --minbqual 13"
         """
         mkdir Position_Tables
 
-        ${params.mtbseq_path} --step TBlist \\
+        MTBseq --step TBlist \\
             --threads ${task.cpus} \\
-            --project ${params.mtbseq_project} \\
             --resilist ${ref_resistance_list} \\
             --intregions ${ref_interesting_regions} \\
             --categories ${ref_gene_categories} \\
@@ -45,10 +44,10 @@ process TBLIST {
         """
         sleep \$[ ( \$RANDOM % 10 )  + 1 ]s
 
-        echo "${params.mtbseq_path} --step TBlist \
+        echo "MTBseq --step TBlist \
             --threads ${task.cpus} \
-            --project ${params.mtbseq_project} \
-            --minbqual ${params.mtbseq_minbqual} \
+            --project mtbseqnf \
+            --minbqual 13 \
             --resilist ${ref_resistance_list} \
             --intregions ${ref_interesting_regions} \
             --categories ${ref_gene_categories} \

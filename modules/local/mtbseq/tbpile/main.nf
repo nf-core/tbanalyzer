@@ -3,7 +3,7 @@ process TBPILE {
     label 'process_single'
     stageInMode 'copy'
 
-    conda "bioconda::mtbseq=1.1.0"
+    conda "${moduleDir}/environment.yml"
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mtbseq:1.1.0--hdfd78af_0' :
@@ -13,7 +13,7 @@ process TBPILE {
 
     input:
         tuple val(meta), path("GATK_Bam/*")
-        env(USER)
+        env('USER')
         tuple path(ref_resistance_list), path(ref_interesting_regions), path(ref_gene_categories), path(ref_base_quality_recalibration)
 
     output:
@@ -21,17 +21,18 @@ process TBPILE {
         tuple val(meta), path("Mpileup/${meta.id}_${meta.library}*.gatk.mpileup"), emit: mpileup
 
     script:
+        def args = task.ext.args ?: "--project mtbseqnf"
 
         """
         mkdir Mpileup
 
-        ${params.mtbseq_path} --step TBpile \\
+        MTBseq --step TBpile \\
             --threads ${task.cpus} \\
-            --project ${params.mtbseq_project} \\
             --resilist ${ref_resistance_list} \\
             --intregions ${ref_interesting_regions} \\
             --categories ${ref_gene_categories} \\
             --basecalib ${ref_base_quality_recalibration} \\
+            ${args} \\
         1>>.command.out \\
         2>>.command.err \\
         || true               # NOTE This is a hack to overcome the exit status 1 thrown by mtbseq
@@ -41,9 +42,9 @@ process TBPILE {
     stub:
 
         """
-        echo "${params.mtbseq_path} --step TBpile \
+        echo "MTBseq --step TBpile \
             --threads ${task.cpus} \
-            --project ${params.mtbseq_project} \
+            --project mtbseqnf \
             --resilist ${ref_resistance_list} \
             --intregions ${ref_interesting_regions} \
             --categories ${ref_gene_categories} \

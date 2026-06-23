@@ -1,0 +1,28 @@
+nextflow_pipeline {
+
+    name "Test pipeline"
+    script "../main.nf"
+    tag "pipeline"
+
+    test("-profile test") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assertAll(
+                // The pipeline wraps MTBseq (BWA/GATK), whose per-position
+                // calls are not bit-stable run-to-run, so we assert successful
+                // completion + that the key MTBseq + MultiQC outputs are produced
+                // rather than snapshotting variable content.
+                { assert workflow.success },
+                { assert path("${params.outdir}/multiqc/multiqc_report.html").exists() },
+                { assert path("${params.outdir}/tbfull/Classification/Strain_Classification.tab").exists() },
+                { assert workflow.trace.succeeded().size() > 0 },
+            )
+        }
+    }
+}
