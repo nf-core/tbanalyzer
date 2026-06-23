@@ -27,6 +27,7 @@ process TBPROFILER_COLLATE {
     """
 
     stub:
+    def prefix     = task.ext.prefix ?: joint_name
     """
     touch ${joint_name}.${prefix}.txt
     """

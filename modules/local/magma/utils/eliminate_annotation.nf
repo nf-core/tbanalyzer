@@ -24,6 +24,7 @@ process UTILS_ELIMINATE_ANNOTATION {
     """
 
     stub:
+    def annotationPrefix = task.ext.prefix ?: ''
     """
     touch ${meta.id}.${analysisType}.${annotationPrefix}.annotations.txt
     touch ${meta.id}.${analysisType}.${annotationPrefix}.annotations_tranches.json

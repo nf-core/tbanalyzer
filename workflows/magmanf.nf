@@ -407,7 +407,7 @@ workflow MAGMA {
 
         def samtools_merge_delly_input_ch = delly_filtered_ch.map { meta, bams -> [meta, bams, []] }
         SAMTOOLS_MERGE_DELLY(samtools_merge_delly_input_ch, Channel.value([ [id: 'none'], [], [], [] ]))
-        GATK_MARK_DUPLICATES_DELLY(SAMTOOLS_MERGE_DELLY.out, [], [])
+        GATK_MARK_DUPLICATES_DELLY(SAMTOOLS_MERGE_DELLY.out.bam, [], [])
 
         if (!params.magma_skip_base_recalibration) {
             def base_recal_delly_input_ch = GATK_MARK_DUPLICATES_DELLY.out.bam.map { meta, bam -> [ meta, bam, [], [] ] }
