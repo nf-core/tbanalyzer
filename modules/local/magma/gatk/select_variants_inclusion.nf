@@ -7,7 +7,7 @@ process GATK_SELECT_VARIANTS_INCLUSION {
         path(intervalsFile)
 
     output:
-        path("${meta.id}.potentialSV.DRgenes.vcf.gz")
+        path("${meta.id}.potentialSV.DRgenes.vcf.gz"), emit: vcf
 
     when:
     task.ext.when == null || task.ext.when

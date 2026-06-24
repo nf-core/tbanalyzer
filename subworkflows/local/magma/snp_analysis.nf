@@ -1,7 +1,7 @@
 include { GATK4_SELECTVARIANTS as GATK_SELECT_VARIANTS_SNP             } from '../../../modules/local/magma/nf-core/gatk4/selectvariants/main'
 include { GATK_VARIANT_RECALIBRATOR as GATK_VARIANT_RECALIBRATOR_SNP   } from '../../../modules/local/magma/gatk/variant_recalibrator'
 include { GATK4_APPLYVQSR as GATK_APPLY_VQSR_SNP                       } from '../../../modules/local/magma/nf-core/gatk4/applyvqsr/main'
-include { GATK_SELECT_VARIANTS_EXCLUSION as GATK_SELECT_VARIANTS_EXCLUSION_SNP } from '../../../modules/local/magma/gatk/select_variants_exclusion'
+include { GATK4_SELECTVARIANTS as GATK_SELECT_VARIANTS_EXCLUSION_SNP } from '../../../modules/local/magma/nf-core/gatk4/selectvariants/main'
 include { OPTIMIZE_VARIANT_RECALIBRATION } from './optimize_variant_recalibration'
 
 
@@ -104,16 +104,14 @@ workflow SNP_ANALYSIS {
     // nf-core gatk4/applyvqsr emits vcf / tbi separately; recompose with .join.
     def apply_vqsr_snp_filtered_ch = GATK_APPLY_VQSR_SNP.out.tbi.join(GATK_APPLY_VQSR_SNP.out.vcf)
 
-    // Exclude rRNA loci
-    GATK_SELECT_VARIANTS_EXCLUSION_SNP(
-        'SNP',
-        apply_vqsr_snp_filtered_ch,
-        params.magma_rrna_list,
-        params.magma_ref_fasta,
-        [params.magma_ref_fasta_fai, params.magma_ref_fasta_dict]
-    )
+    // Exclude rRNA loci. Uses the patched nf-core gatk4/selectvariants module
+    // with ext.intervals_mode = 'exclude' (see conf/modules.config) so the
+    // module's interval slot emits `--exclude-intervals` instead of `--intervals`.
+    def exclude_snp_input_ch = apply_vqsr_snp_filtered_ch.map { meta, tbi, vcf -> [ meta, vcf, tbi, file(params.magma_rrna_list) ] }
+    GATK_SELECT_VARIANTS_EXCLUSION_SNP(exclude_snp_input_ch)
+    def exclude_snp_vcftuple_ch = GATK_SELECT_VARIANTS_EXCLUSION_SNP.out.tbi.join(GATK_SELECT_VARIANTS_EXCLUSION_SNP.out.vcf)
 
     emit:
-    snp_exc_vcf_ch = GATK_SELECT_VARIANTS_EXCLUSION_SNP.out   // rRNA-excluded SNP VCF
+    snp_exc_vcf_ch = exclude_snp_vcftuple_ch    // rRNA-excluded SNP VCF — [meta, tbi, vcf]
     snp_inc_vcf_ch = apply_vqsr_snp_filtered_ch // rRNA-included SNP VCF — [meta, tbi, vcf]
 }

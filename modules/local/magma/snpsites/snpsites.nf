@@ -7,7 +7,7 @@ process SNPSITES {
         tuple val(meta), path(alignmentFasta)
 
     output:
-        tuple val(meta), path("*.variable.${prefix}.fa")
+        tuple val(meta), path("*.variable.${prefix}.fa"), emit: fasta
 
     when:
     task.ext.when == null || task.ext.when

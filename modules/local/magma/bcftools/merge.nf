@@ -8,7 +8,7 @@ process BCFTOOLS_MERGE {
         path("*")            // VCFs staged at task ROOT (matches torch-magma; -l reads bare names)
 
     output:
-        tuple val(joint_name), path("*.vcf.gz.csi"), path("*.${file_format}.vcf.gz")
+        tuple val(joint_name), path("*.vcf.gz.csi"), path("*.${file_format}.vcf.gz"), emit: vcf
 
     when:
     task.ext.when == null || task.ext.when

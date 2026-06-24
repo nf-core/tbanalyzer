@@ -6,7 +6,7 @@ process UTILS_REFORMAT_LOFREQ {
         tuple val(meta), path(lofreqVcf)
 
     output:
-        tuple val(meta), path("*lofreq.reformat.corrected.vcf")
+        tuple val(meta), path("*lofreq.reformat.corrected.vcf"), emit: vcf
 
     when:
     task.ext.when == null || task.ext.when

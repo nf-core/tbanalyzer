@@ -14,7 +14,8 @@ process GATK4_COMBINEGVCFS {
     path dict
 
     output:
-    tuple val(meta), path("*.combined.g.vcf.gz"), emit: combined_gvcf
+    tuple val(meta), path("*.combined.g.vcf.gz"),     emit: combined_gvcf
+    tuple val(meta), path("*.combined.g.vcf.gz.tbi"), emit: tbi
     tuple val("${task.process}"), val('gatk4'), eval("gatk --version | sed -n '/GATK.*v/s/.*v//p'"), topic: versions, emit: versions_gatk4
 
     when:
@@ -46,5 +47,6 @@ process GATK4_COMBINEGVCFS {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo "" | gzip > ${prefix}.combined.g.vcf.gz
+    touch ${prefix}.combined.g.vcf.gz.tbi
     """
 }

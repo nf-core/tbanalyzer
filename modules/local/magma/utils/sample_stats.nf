@@ -6,7 +6,7 @@ process UTILS_SAMPLE_STATS {
         tuple val(meta), path(samtoolsStats), path(wgsMetrics), path(flagStats), path(ntmFraction)
 
     output:
-        path("*.stats.tsv")
+        path("*.stats.tsv"), emit: stats
 
     when:
     task.ext.when == null || task.ext.when

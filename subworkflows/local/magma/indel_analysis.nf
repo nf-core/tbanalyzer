@@ -1,5 +1,5 @@
 include { GATK4_SELECTVARIANTS as GATK_SELECT_VARIANTS_INDEL             } from '../../../modules/local/magma/nf-core/gatk4/selectvariants/main'
-include { GATK_SELECT_VARIANTS_EXCLUSION as GATK_SELECT_VARIANTS_EXCLUSION_INDEL } from '../../../modules/local/magma/gatk/select_variants_exclusion'
+include { GATK4_SELECTVARIANTS as GATK_SELECT_VARIANTS_EXCLUSION_INDEL } from '../../../modules/local/magma/nf-core/gatk4/selectvariants/main'
 
 
 // NOTE: Full INDEL VQSR is experimental (XBS_merge#L164) and disabled by default.
@@ -22,19 +22,14 @@ workflow INDEL_ANALYSIS {
     // nf-core's separate vcf / tbi emits.
     def select_indel_vcftuple_ch = GATK_SELECT_VARIANTS_INDEL.out.tbi.join(GATK_SELECT_VARIANTS_INDEL.out.vcf)
 
-    // Exclude rRNA loci from indel VCF (still uses local GATK_SELECT_VARIANTS_EXCLUSION
-    // — nf-core gatk4/selectvariants doesn't expose --exclude-intervals cleanly,
-    // so this alias stays on the local module for now).
-    GATK_SELECT_VARIANTS_EXCLUSION_INDEL(
-        'INDEL',
-        select_indel_vcftuple_ch,
-        params.magma_rrna_list,
-        params.magma_ref_fasta,
-        [params.magma_ref_fasta_fai, params.magma_ref_fasta_dict]
-    )
+    // Exclude rRNA loci from indel VCF. Uses the patched nf-core gatk4/selectvariants
+    // with ext.intervals_mode = 'exclude' (see conf/modules.config).
+    def exclude_indel_input_ch = select_indel_vcftuple_ch.map { meta, tbi, vcf -> [ meta, vcf, tbi, file(params.magma_rrna_list) ] }
+    GATK_SELECT_VARIANTS_EXCLUSION_INDEL(exclude_indel_input_ch)
+    def exclude_indel_vcftuple_ch = GATK_SELECT_VARIANTS_EXCLUSION_INDEL.out.tbi.join(GATK_SELECT_VARIANTS_EXCLUSION_INDEL.out.vcf)
 
     emit:
     // NOTE: returns raw selected INDELs (VQSR deferred to future work)
     indel_vcf_ch     = select_indel_vcftuple_ch
-    indel_exc_vcf_ch = GATK_SELECT_VARIANTS_EXCLUSION_INDEL.out
+    indel_exc_vcf_ch = exclude_indel_vcftuple_ch
 }

@@ -5,7 +5,7 @@ process UTILS_COHORT_STATS {
         path("sample_stats/*")
 
     output:
-        path("*.cohort_stats.tsv")
+        path("*.cohort_stats.tsv"), emit: cohort_stats
 
     when:
     task.ext.when == null || task.ext.when

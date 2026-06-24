@@ -1,4 +1,4 @@
-include { GATK_COMBINE_GVCFS              } from '../../../modules/local/magma/gatk/combine_gvcfs'
+include { GATK4_COMBINEGVCFS as GATK_COMBINE_GVCFS } from '../../../modules/local/magma/nf-core/gatk4/combinegvcfs/main'
 include { GATK4_GENOTYPEGVCFS as GATK_GENOTYPE_GVCFS } from '../../../modules/local/magma/nf-core/gatk4/genotypegvcfs/main'
 include { SNPEFF                          } from '../../../modules/local/magma/snpeff/snpeff'
 include { BGZIP                           } from '../../../modules/local/magma/bgzip/bgzip'
@@ -12,35 +12,36 @@ workflow PREPARE_COHORT_VCF {
 
     main:
 
-    // Build the --variant string by collecting all .gz filenames
-    gvcfs_string_ch = cohort_gvcfs_ch
-        .flatten()
-        .filter { it instanceof java.nio.file.Path && it.getExtension() == "gz" }
-        .map { it -> file(it).name }
-        .reduce { a, b -> "$a --variant $b" }
-
-    // Collect all GVCFs (paths) for staging
-    gvcfs_paths_ch = cohort_gvcfs_ch
+    // Build the [meta, [gvcfs], [tbis]] input shape nf-core gatk4/combinegvcfs
+    // expects. Collect every path in one go (avoids .merge() losing the list
+    // structure), then partition by suffix inside the map closure.
+    def combine_input_ch = cohort_gvcfs_ch
         .flatten()
         .filter { it instanceof java.nio.file.Path }
         .collect()
-
-    def refExitRifGvcf    = params.magma_use_ref_gvcf ? file(params.magma_ref_gvcf,     checkIfExists: true) : []
-    def refExitRifGvcfTbi = params.magma_use_ref_gvcf ? file(params.magma_ref_gvcf_tbi, checkIfExists: true) : []
+        .map { paths ->
+            def gvcfs = paths.findAll { it.name.endsWith('.gz') }
+            def tbis  = paths.findAll { it.name.endsWith('.tbi') }
+            if (params.magma_use_ref_gvcf) {
+                gvcfs = gvcfs + [ file(params.magma_ref_gvcf,     checkIfExists: true) ]
+                tbis  = tbis  + [ file(params.magma_ref_gvcf_tbi, checkIfExists: true) ]
+            }
+            [ [id: params.magma_vcf_name], gvcfs, tbis ]
+        }
 
     GATK_COMBINE_GVCFS(
-        params.magma_vcf_name,
-        gvcfs_string_ch,
-        gvcfs_paths_ch,
-        params.magma_ref_fasta,
-        refExitRifGvcf,
-        refExitRifGvcfTbi,
-        [params.magma_ref_fasta_fai, params.magma_ref_fasta_dict]
+        combine_input_ch,
+        file(params.magma_ref_fasta),
+        file(params.magma_ref_fasta_fai),
+        file(params.magma_ref_fasta_dict)
     )
 
-    // Wrap the joint_name output in a meta map for downstream consistency
-    combined_ch = GATK_COMBINE_GVCFS.out
-        .map { joint_name, tbi, vcf -> [ [id: joint_name], tbi, vcf ] }
+    // Downstream wants [meta, tbi, vcf]. nf-core emits combined_gvcf (vcf) and tbi separately
+    // (tbi emit added via patch — gatk auto-creates .tbi for any .vcf.gz output but the
+    // stock nf-core module doesn't expose it).
+    def combined_ch = GATK_COMBINE_GVCFS.out.combined_gvcf
+        .join(GATK_COMBINE_GVCFS.out.tbi)
+        .map { meta, vcf, tbi -> [ meta, tbi, vcf ] }
 
     // nf-core GenotypeGVCFs input: [meta, vcf, gvcf_index, intervals, intervals_index]
     // Reorder combined_ch [meta, tbi, vcf] → [meta, vcf, tbi, [], []] and supply

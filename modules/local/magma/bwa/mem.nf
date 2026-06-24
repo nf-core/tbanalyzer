@@ -8,7 +8,7 @@ process BWA_MEM {
         path("*")
 
     output:
-        tuple val(meta), path("*.sorted_reads.bam")
+        tuple val(meta), path("*.sorted_reads.bam"), emit: bam
 
     when:
     task.ext.when == null || task.ext.when

@@ -7,7 +7,7 @@ process GATK_COLLECT_WGS_METRICS {
         path(reference)
 
     output:
-        tuple val(meta), path("*.WgsMetrics.txt")
+        tuple val(meta), path("*.WgsMetrics.txt"), emit: metrics
 
     when:
     task.ext.when == null || task.ext.when

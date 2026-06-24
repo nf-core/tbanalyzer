@@ -6,7 +6,7 @@ process BGZIP {
         tuple val(meta), path(vcf)
 
     output:
-        tuple val(meta), path("*.gz")
+        tuple val(meta), path("*.gz"), emit: vcf
 
     when:
     task.ext.when == null || task.ext.when

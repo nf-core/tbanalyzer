@@ -13,7 +13,7 @@ process TBPROFILER_VCF_PROFILE {
         path(resistanceDb)
 
     output:
-        path("results/*")
+        path("results/*"), emit: results
 
     when:
     task.ext.when == null || task.ext.when

@@ -8,7 +8,7 @@ process GATK_FLAG_STAT {
         path("*")
 
     output:
-        tuple val(meta), path("*.FlagStat.txt")
+        tuple val(meta), path("*.FlagStat.txt"), emit: flagstat
 
     when:
     task.ext.when == null || task.ext.when

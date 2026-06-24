@@ -9,7 +9,7 @@ process UTILS_SUMMARIZE_RESISTANCE_RESULTS {
         path("structural_variants/*")
 
     output:
-        path("combined_resistance_summaries")
+        path("combined_resistance_summaries"), emit: resistance
 
     when:
     task.ext.when == null || task.ext.when

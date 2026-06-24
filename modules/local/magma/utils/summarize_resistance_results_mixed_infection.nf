@@ -8,7 +8,7 @@ process UTILS_SUMMARIZE_RESISTANCE_RESULTS_MIXED_INFECTION {
         path("structural_variants/*")
 
     output:
-        path("combined_resistance_summaries_mixed_infection_samples"), optional: true
+        path("combined_resistance_summaries_mixed_infection_samples"), optional: true, emit: resistance_mixed
 
     when:
     task.ext.when == null || task.ext.when

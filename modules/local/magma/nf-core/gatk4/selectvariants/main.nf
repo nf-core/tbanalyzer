@@ -21,7 +21,11 @@ process GATK4_SELECTVARIANTS {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def interval = intervals ? "--intervals ${intervals}" : ""
+    // Allow ext.intervals_mode = 'exclude' to use --exclude-intervals (-XL)
+    // instead of the default --intervals (-L). Needed by MAGMA's rRNA-loci
+    // exclusion path (GATK_SELECT_VARIANTS_EXCLUSION_{SNP,INDEL}).
+    def interval_flag = task.ext.intervals_mode == 'exclude' ? '--exclude-intervals' : '--intervals'
+    def interval = intervals ? "${interval_flag} ${intervals}" : ""
 
     def avail_mem = 3072
     if (!task.memory) {

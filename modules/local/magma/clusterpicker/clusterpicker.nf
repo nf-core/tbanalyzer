@@ -8,7 +8,7 @@ process CLUSTERPICKER {
         val(prefix)
 
     output:
-        tuple val(meta), path("*${snpCount}SNPcluster*")
+        tuple val(meta), path("*${snpCount}SNPcluster*"), emit: clusters
 
     when:
     task.ext.when == null || task.ext.when

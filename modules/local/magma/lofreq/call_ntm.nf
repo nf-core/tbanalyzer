@@ -8,7 +8,7 @@ process LOFREQ_CALL_NTM {
         path("*")
 
     output:
-        tuple val(meta), path("*.potential_NTM_fraction.txt")
+        tuple val(meta), path("*.potential_NTM_fraction.txt"), emit: fraction
 
     when:
     task.ext.when == null || task.ext.when

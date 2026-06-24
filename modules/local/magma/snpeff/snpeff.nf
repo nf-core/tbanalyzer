@@ -7,7 +7,7 @@ process SNPEFF {
         path(ref_fasta)
 
     output:
-        tuple val(meta), path("*.annotated.vcf")
+        tuple val(meta), path("*.annotated.vcf"), emit: vcf
 
     when:
     task.ext.when == null || task.ext.when

@@ -8,7 +8,7 @@ process LOFREQ_CALL {
         path("*")
 
     output:
-        tuple val(meta), path("*.LoFreq.vcf")
+        tuple val(meta), path("*.LoFreq.vcf"), emit: vcf
 
     when:
     task.ext.when == null || task.ext.when
