@@ -17,6 +17,7 @@
 
 include { TBANALYZER  } from './workflows/tbanalyzer'
 include { MTBSEQ_NF    } from './workflows/mtbseqnf'
+include { CLOCKWORK_NF } from './workflows/clockworknf'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
 include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
@@ -59,8 +60,15 @@ workflow NFCORE_TBANALYZER {
         )
         multiqc_report = MTBSEQ_NF.out.multiqc_report
     }
+    // CLOCKWORK run mode (vendored clockwork DB-free variant_call; version-isolated)
+    else if (params.mode == "clockwork") {
+        CLOCKWORK_NF (
+            samplesheet
+        )
+        multiqc_report = CLOCKWORK_NF.out.multiqc_report
+    }
     else {
-        error("Unknown --mode '${params.mode}'. Supported modes: 'mtbseq'.")
+        error("Unknown --mode '${params.mode}'. Supported modes: 'mtbseq', 'clockwork'.")
     }
 
     // WORKFLOW: Run generic pipeline (TBANALYZER mode — not yet wired into mode dispatch)

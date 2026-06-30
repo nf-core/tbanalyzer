@@ -52,7 +52,7 @@
                 "mode": {
                     "type": "string",
                     "default": "mtbseq",
-                    "enum": ["mtbseq"],
+                    "enum": ["mtbseq", "clockwork"],
                     "description": "Which bundled MTBC analysis pipeline to run.",
                     "fa_icon": "fas fa-cogs"
                 },
@@ -390,6 +390,35 @@
                     "fa_icon": "fas fa-file-alt"
                 }
             }
+        },
+        "clockwork_options": {
+            "title": "Clockwork options",
+            "type": "object",
+            "fa_icon": "fas fa-clock",
+            "description": "Parameters for the clockwork analysis mode (vendored DB-free variant_call; pinned to clockwork:v0.12.5). Active when --mode clockwork.",
+            "properties": {
+                "clockwork_ref_dir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Prepared clockwork reference directory (clockwork prepare_reference output: ref.fa + BWA-MEM2 + Cortex indexes).",
+                    "default": "data/clockwork-references/H37Rv"
+                },
+                "clockwork_cortex_mem_height": {
+                    "type": "integer",
+                    "description": "Cortex --mem_height (de Bruijn hash size; higher = more RAM).",
+                    "default": 22
+                },
+                "clockwork_gvcf": {
+                    "type": "boolean",
+                    "description": "Also emit a gVCF (Minos+samtools) and gVCF FASTA.",
+                    "default": false
+                },
+                "clockwork_truth_ref": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Optional truth-genome FASTA; if set, runs minos check_with_ref on the call sets."
+                }
+            }
         }
     },
     "allOf": [
@@ -410,6 +439,9 @@
         },
         {
             "$ref": "#/$defs/mtbseq_options"
+        },
+        {
+            "$ref": "#/$defs/clockwork_options"
         }
     ]
 }
