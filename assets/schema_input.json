@@ -34,9 +34,6 @@
                 "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
             }
         },
-        "anyOf": [
-            { "required": ["sample", "fastq_1"] },
-            { "required": ["Sample", "R1"] }
-        ]
+        "anyOf": [{ "required": ["sample", "fastq_1"] }, { "required": ["Sample", "R1"] }]
     }
 }

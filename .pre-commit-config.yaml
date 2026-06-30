@@ -16,6 +16,8 @@ repos:
               modules/(?!local/).*|
               subworkflows/(?!local/).*|
               data/mtbseq-references/.*|
+              data/magma-references/.*|
+              modules/local/magma/nf-core/.*|
               .*\.snap$
           )$
       - id: end-of-file-fixer
@@ -25,6 +27,8 @@ repos:
               modules/(?!local/).*|
               subworkflows/(?!local/).*|
               data/mtbseq-references/.*|
+              data/magma-references/.*|
+              modules/local/magma/nf-core/.*|
               .*\.snap$
           )$
   - repo: https://github.com/seqeralabs/nf-lint-pre-commit
@@ -35,6 +39,7 @@ repos:
         exclude: |
           (?x)^(
               modules/(?!local/).*|
+              modules/local/magma/nf-core/.*|
               subworkflows/(?!local/).*
           )$
         args: ["-output", "json"]

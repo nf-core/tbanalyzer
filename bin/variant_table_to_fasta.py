@@ -44,7 +44,7 @@ def main(args):
         for l in list(map(list, zip(*table))):
             fasta_file.write('>{}\n{}\n'.format(l[0].replace('.GT', ''), ''.join(l[1:])))
 
-    
+
 
 parser = argparse.ArgumentParser(description='tbprofiler script',formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('table', type=str, help='The input table to convert (stdin if empty)')
