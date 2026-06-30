@@ -8,10 +8,3 @@ testing*
 *.pyc
 null/
 .lineage/
-
-# Fossil checkout control file (manuscript iteration tracked in Fossil, not git)
-writeup/manuscript/.fslckout
-writeup/manuscript/*.fossil
-
-# Ulysses iPad working copy (manuscript drafted in Fossil; not for public git)
-ulysses-tbanalyzer/
