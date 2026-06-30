@@ -51,7 +51,7 @@
             "properties": {
                 "mode": {
                     "type": "string",
-                    "default": "mtbseq",
+                    "default": "magma",
                     "enum": ["mtbseq", "magma"],
                     "description": "Which bundled MTBC analysis pipeline to run.",
                     "fa_icon": "fas fa-cogs"
