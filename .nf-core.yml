@@ -15,6 +15,11 @@ lint:
   # The pipeline wraps non-deterministic tools (BWA/GATK via MTBseq); the default
   # nf-test asserts success + key-output existence instead of content snapshots.
   nf_test_content: false
+  # conf/containers_*.config are the template's per-arch container-lock files (an
+  # optional offline-resolution optimisation). Vendoring each bundled pipeline's
+  # version-isolated modules makes them perpetually "out of date" vs a regenerate;
+  # the module/process container directives are what actually drive execution.
+  container_configs: false
 template:
   author: "@abhi18av"
   description: TB-GVAS aims to democratize analysis by providing a comprehensive and
