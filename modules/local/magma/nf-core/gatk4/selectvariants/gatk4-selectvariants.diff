@@ -1,0 +1,23 @@
+Changes in component 'nf-core/gatk4/selectvariants'
+'modules/nf-core/gatk4/selectvariants/environment.yml' is unchanged
+'modules/nf-core/gatk4/selectvariants/meta.yml' is unchanged
+Changes in 'gatk4/selectvariants/main.nf':
+--- modules/nf-core/gatk4/selectvariants/main.nf
++++ modules/nf-core/gatk4/selectvariants/main.nf
+@@ -21,7 +21,11 @@
+     script:
+     def args = task.ext.args ?: ''
+     def prefix = task.ext.prefix ?: "${meta.id}"
+-    def interval = intervals ? "--intervals ${intervals}" : ""
++    // Allow ext.intervals_mode = 'exclude' to use --exclude-intervals (-XL)
++    // instead of the default --intervals (-L). Needed by MAGMA's rRNA-loci
++    // exclusion path (GATK_SELECT_VARIANTS_EXCLUSION_{SNP,INDEL}).
++    def interval_flag = task.ext.intervals_mode == 'exclude' ? '--exclude-intervals' : '--intervals'
++    def interval = intervals ? "${interval_flag} ${intervals}" : ""
+ 
+     def avail_mem = 3072
+     if (!task.memory) {
+
+'modules/nf-core/gatk4/selectvariants/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/gatk4/selectvariants/tests/main.nf.test' is unchanged
+************************************************************

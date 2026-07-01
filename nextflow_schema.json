@@ -51,8 +51,8 @@
             "properties": {
                 "mode": {
                     "type": "string",
-                    "default": "mtbseq",
-                    "enum": ["mtbseq"],
+                    "default": "magma",
+                    "enum": ["mtbseq", "magma"],
                     "description": "Which bundled MTBC analysis pipeline to run.",
                     "fa_icon": "fas fa-cogs"
                 },
@@ -390,6 +390,410 @@
                     "fa_icon": "fas fa-file-alt"
                 }
             }
+        },
+        "magma_options": {
+            "title": "MAGMA options",
+            "type": "object",
+            "description": "Parameters for the MAGMA analysis mode (vendored TORCH-consortium/magma nf-core port). Active when --mode magma.",
+            "fa_icon": "fas fa-dna",
+            "properties": {
+                "magma_input_samplesheet": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Path to the MAGMA samplesheet CSV file.",
+                    "help_text": "MAGMA samplesheet must have columns: study, sample, library, attempt, flowcell, lane, index_sequence, r1, r2. The study id cannot start with 'XBS_REF_'.",
+                    "fa_icon": "fas fa-file-csv"
+                },
+                "magma_vcf_name": {
+                    "type": "string",
+                    "description": "Base name for the joint output VCF file. Used to derive the JOINT_NAME.",
+                    "default": "joint",
+                    "fa_icon": "fas fa-file-alt"
+                },
+                "magma_ref_fasta_basename": {
+                    "type": "string",
+                    "description": "Basename of the reference FASTA file (without extension). Used for chromosome renaming in SnpEff and TBprofiler.",
+                    "default": "NC-000962-3-H37Rv",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_ref_fasta_dir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Directory containing the reference genome files.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "magma_ref_fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the reference FASTA file.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_ref_fasta_fai": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the reference FASTA index (.fai) file.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_ref_fasta_dict": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the reference FASTA sequence dictionary (.dict) file.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_ref_fasta_amb": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the BWA index .amb file.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_ref_fasta_ann": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the BWA index .ann file.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_ref_fasta_bwt": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the BWA index .bwt file.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_ref_fasta_pac": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the BWA index .pac file.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_ref_fasta_sa": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the BWA index .sa file.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_ref_fasta_gb": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the reference GenBank (.gb) annotation file.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_ref_fasta_rdanalyzer": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the RD-Analyzer reference FASTA file (for region-of-difference analysis).",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_use_ref_gvcf": {
+                    "type": "boolean",
+                    "description": "Include the bundled reference GVCF (EXIT-RIF lineage panel) when combining GVCFs. Recommended for low-diversity datasets (<20 samples).",
+                    "default": true,
+                    "fa_icon": "fas fa-toggle-on"
+                },
+                "magma_ref_gvcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the reference GVCF file (e.g. EXIT-RIF lineage panel).",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_ref_gvcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the tabix index (.tbi) for ref_gvcf.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_dbsnp_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the known-variants VCF used as dbSNP resource for BQSR and VQSR (Benavente 2015, UVP-approved).",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_dbsnp_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Tabix index for dbsnp_vcf.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_benavente2015_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Benavente 2015 VCF (UVP-approved, rRNA-excluded) used as VQSR resource.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_benavente2015_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Tabix index for benavente2015_vcf.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_coll2014_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Coll 2014 truth VCF (UVP-approved, rRNA-excluded) used as VQSR truth resource.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_coll2014_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Tabix index for coll2014_vcf.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_coll2018_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Coll 2018 truth VCF (UVP-approved, rRNA-excluded) used as VQSR truth resource.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_coll2018_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Tabix index for coll2018_vcf.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_napier2020_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Napier 2020 truth VCF (UVP-approved, rRNA-excluded) used as VQSR truth resource.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_napier2020_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Tabix index for napier2020_vcf.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_walker2015_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Walker 2015 truth VCF (UVP-approved, rRNA-excluded) used as VQSR truth resource.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_walker2015_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Tabix index for walker2015_vcf.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_zeng2018_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Zeng 2018 truth VCF (UVP-approved, rRNA-excluded) used as VQSR truth resource.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_zeng2018_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Tabix index for zeng2018_vcf.",
+                    "fa_icon": "fas fa-file",
+                    "hidden": true
+                },
+                "magma_excluded_loci_list": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "List of loci to exclude from variant calling (UVP exclusion list).",
+                    "fa_icon": "fas fa-list"
+                },
+                "magma_rrna_list": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "List of rRNA loci to exclude from phylogenetic analysis.",
+                    "fa_icon": "fas fa-list"
+                },
+                "magma_drgenes_list": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "List of WHO Tier 1 and Tier 2 drug resistance genes.",
+                    "fa_icon": "fas fa-list"
+                },
+                "magma_queries_multifasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Multi-FASTA file of IS element query sequences for ISMapper structural variant analysis.",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_cutoff_median_coverage": {
+                    "type": "number",
+                    "description": "Minimum median genome coverage required to retain a sample.",
+                    "default": 10,
+                    "minimum": 0,
+                    "fa_icon": "fas fa-chart-bar"
+                },
+                "magma_cutoff_breadth_of_coverage": {
+                    "type": "number",
+                    "description": "Minimum fraction of the reference genome covered (breadth) required to retain a sample.",
+                    "default": 0.9,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-chart-area"
+                },
+                "magma_cutoff_rel_abundance": {
+                    "type": "number",
+                    "description": "Minimum relative abundance of the majority strain required to retain a sample (mixed-infection filter).",
+                    "default": 0.7,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-percent"
+                },
+                "magma_cutoff_ntm_fraction": {
+                    "type": "number",
+                    "description": "Maximum fraction of NTM DNA allowed before a sample is flagged and excluded.",
+                    "default": 0.2,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-percent"
+                },
+                "magma_cutoff_site_representation": {
+                    "type": "number",
+                    "description": "Minimum fraction of samples that must have a call at a site for the site to be included in phylogenetic analysis.",
+                    "default": 0.95,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-chart-pie"
+                },
+                "magma_cutoff_strand_bias": {
+                    "type": "number",
+                    "description": "P-value threshold below which binomial strand bias is considered significant (0 = disabled, recommended for Mtb).",
+                    "default": 0,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-sliders-h"
+                },
+                "magma_only_validate_fastqs": {
+                    "type": "boolean",
+                    "description": "Stop after FASTQ validation and FastQC \u2014 do not proceed to mapping or variant calling.",
+                    "default": false,
+                    "fa_icon": "fas fa-stop-circle"
+                },
+                "magma_skip_merge_analysis": {
+                    "type": "boolean",
+                    "description": "Skip cohort-level joint genotyping, VQSR, phylogeny and resistance summary steps.",
+                    "default": false,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_variant_recalibration": {
+                    "type": "boolean",
+                    "description": "Skip VQSR (Variant Quality Score Recalibration) and use hard-filter thresholds instead. Use when cohort is too small for VQSR.",
+                    "default": false,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_base_recalibration": {
+                    "type": "boolean",
+                    "description": "Skip GATK Base Quality Score Recalibration (BQSR). Recommended for Mtb \u2014 BQSR requires large genomes and is not suitable for low-diversity organisms.",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_minor_variants_gatk": {
+                    "type": "boolean",
+                    "description": "Skip GATK HaplotypeCaller in EMIT_ALL_ACTIVE_SITES mode for minor variant detection (LoFreq is preferred).",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_phylogeny_and_clustering": {
+                    "type": "boolean",
+                    "description": "Skip IQ-TREE phylogenetic reconstruction and ClusterPicker cluster assignment.",
+                    "default": false,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_complex_regions": {
+                    "type": "boolean",
+                    "description": "Skip IncComplex region analysis of the merged cohort VCF.",
+                    "default": false,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_ntmprofiler": {
+                    "type": "boolean",
+                    "description": "Skip NTM-Profiler classification of reads as non-tuberculous mycobacteria.",
+                    "default": false,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_tbprofiler_fastq": {
+                    "type": "boolean",
+                    "description": "Skip TBprofiler analysis run directly on FASTQ files (per-sample, pre-mapping).",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_spotyping": {
+                    "type": "boolean",
+                    "description": "Skip SpoTyping spoligotyping analysis.",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_rdanalyzer": {
+                    "type": "boolean",
+                    "description": "Skip RD-Analyzer region-of-difference analysis (experimental feature).",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
+                },
+                "magma_skip_ismapper": {
+                    "type": "boolean",
+                    "description": "Skip ISMapper IS-element insertion site detection.",
+                    "default": false,
+                    "fa_icon": "fas fa-forward",
+                    "hidden": true
+                },
+                "magma_iqtree_standard_bootstrap": {
+                    "type": "boolean",
+                    "description": "Run IQ-TREE with standard bootstrap (-b 1000). Recommended default.",
+                    "default": true,
+                    "fa_icon": "fas fa-tree"
+                },
+                "magma_iqtree_fast_ml_only": {
+                    "type": "boolean",
+                    "description": "Run IQ-TREE for maximum-likelihood tree only, without bootstrap (fast but no branch support).",
+                    "default": false,
+                    "fa_icon": "fas fa-tree"
+                },
+                "magma_iqtree_fast_bootstrapped_phylogeny": {
+                    "type": "boolean",
+                    "description": "Run IQ-TREE with ultrafast bootstrap (--bb 1000). Fast approximation.",
+                    "default": false,
+                    "fa_icon": "fas fa-tree"
+                },
+                "magma_iqtree_accurate_ml_only": {
+                    "type": "boolean",
+                    "description": "Run IQ-TREE with thorough ML search (no bootstrap, slower but more accurate topology).",
+                    "default": false,
+                    "fa_icon": "fas fa-tree"
+                },
+                "magma_snpeff_genome_id": {
+                    "type": "string",
+                    "description": "SnpEff genome database identifier. Must match a built database in snpeff_db_dir.",
+                    "default": "Mycobacterium_tuberculosis_h37rv",
+                    "fa_icon": "fas fa-database"
+                },
+                "magma_snpeff_config_file": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Path to the SnpEff configuration file (snpEff.config).",
+                    "fa_icon": "fas fa-file"
+                },
+                "magma_snpeff_db_dir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Directory containing the SnpEff genome database for snpeff_genome_id.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "magma_should_publish_bam": {
+                    "type": "boolean",
+                    "description": "Publish BAM files output by GATK HaplotypeCaller. Disabled by default to save disk space.",
+                    "default": false,
+                    "fa_icon": "fas fa-file-archive"
+                }
+            }
         }
     },
     "allOf": [
@@ -410,6 +814,9 @@
         },
         {
             "$ref": "#/$defs/mtbseq_options"
+        },
+        {
+            "$ref": "#/$defs/magma_options"
         }
     ]
 }

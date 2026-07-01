@@ -1,0 +1,27 @@
+Changes in component 'nf-core/gatk4/combinegvcfs'
+'modules/nf-core/gatk4/combinegvcfs/environment.yml' is unchanged
+'modules/nf-core/gatk4/combinegvcfs/meta.yml' is unchanged
+Changes in 'gatk4/combinegvcfs/main.nf':
+--- modules/nf-core/gatk4/combinegvcfs/main.nf
++++ modules/nf-core/gatk4/combinegvcfs/main.nf
+@@ -14,7 +14,8 @@
+     path dict
+ 
+     output:
+-    tuple val(meta), path("*.combined.g.vcf.gz"), emit: combined_gvcf
++    tuple val(meta), path("*.combined.g.vcf.gz"),     emit: combined_gvcf
++    tuple val(meta), path("*.combined.g.vcf.gz.tbi"), emit: tbi
+     tuple val("${task.process}"), val('gatk4'), eval("gatk --version | sed -n '/GATK.*v/s/.*v//p'"), topic: versions, emit: versions_gatk4
+ 
+     when:
+@@ -46,5 +47,6 @@
+     def prefix = task.ext.prefix ?: "${meta.id}"
+     """
+     echo "" | gzip > ${prefix}.combined.g.vcf.gz
++    touch ${prefix}.combined.g.vcf.gz.tbi
+     """
+ }
+
+'modules/nf-core/gatk4/combinegvcfs/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/gatk4/combinegvcfs/tests/main.nf.test' is unchanged
+************************************************************
