@@ -1,4 +1,15 @@
-nf_core_version: 3.3.1
+lint:
+  files_unchanged:
+    - .pre-commit-config.yaml
+  nextflow_config:
+    - config_defaults:
+        - params.mtbseq_ref_and_indexes_path
+        - params.mtbseq_resilist
+        - params.mtbseq_intregions
+        - params.mtbseq_categories
+        - params.mtbseq_basecalib
+  nf_test_content: false
+nf_core_version: 4.0.3
 repository_type: pipeline
 template:
   author: "@abhi18av"
