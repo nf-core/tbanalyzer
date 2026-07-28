@@ -3,6 +3,8 @@ repository_type: pipeline
 lint:
   files_unchanged:
     - .pre-commit-config.yaml
+    - .github/workflows/branch.yml
+    - .github/workflows/linting.yml
   nextflow_config:
     # MTBseq reference-data paths legitimately use ${projectDir}; their resolved
     # absolute value can never equal a portable nextflow_schema.json default.
@@ -15,11 +17,11 @@ lint:
   # The pipeline wraps non-deterministic tools (BWA/GATK via MTBseq); the default
   # nf-test asserts success + key-output existence instead of content snapshots.
   nf_test_content: false
+  files_exist:
+    - .github/workflows/linting_comment.yml
 template:
   author: "@abhi18av"
-  description: TB-GVAS aims to democratize analysis by providing a comprehensive and
-    user-friendly toolkit for genomic characterization of Mycobacterium tuberculosis
-    (Mtb) pathogens at the species and strain levels
+  description: TB-GVAS aims to democratize analysis by providing a comprehensive and user-friendly toolkit for genomic characterization of Mycobacterium tuberculosis (Mtb) pathogens at the species and strain levels
   force: false
   is_nfcore: true
   name: tbanalyzer
