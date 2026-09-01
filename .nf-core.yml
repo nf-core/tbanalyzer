@@ -1,6 +1,10 @@
 lint:
+  files_exist:
+    - .github/workflows/linting_comment.yml
   files_unchanged:
     - .pre-commit-config.yaml
+    - .github/workflows/branch.yml
+    - .github/workflows/linting.yml
   nextflow_config:
     - config_defaults:
         - params.mtbseq_ref_and_indexes_path
@@ -9,7 +13,7 @@ lint:
         - params.mtbseq_categories
         - params.mtbseq_basecalib
   nf_test_content: false
-nf_core_version: 4.0.3
+nf_core_version: 4.1.0
 repository_type: pipeline
 template:
   author: "@abhi18av"
