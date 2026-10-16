@@ -15,6 +15,7 @@ repos:
               .*ro-crate-metadata.json$|
               modules/(?!local/).*|
               subworkflows/(?!local/).*|
+              data/mtbseq-references/.*|
               .*\.snap$
           )$
       - id: end-of-file-fixer
@@ -23,6 +24,7 @@ repos:
               .*ro-crate-metadata.json$|
               modules/(?!local/).*|
               subworkflows/(?!local/).*|
+              data/mtbseq-references/.*|
               .*\.snap$
           )$
       - id: check-added-large-files
@@ -41,6 +43,11 @@ repos:
     hooks:
       - id: nextflow-lint
         files: '\.nf$|nextflow\.config$'
+        exclude: |
+          (?x)^(
+              modules/(?!local/).*|
+              subworkflows/(?!local/).*
+          )$
         args: ["-output", "json"]
   - repo: local
     hooks:
