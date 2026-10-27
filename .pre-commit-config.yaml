@@ -15,6 +15,7 @@ repos:
               .*ro-crate-metadata.json$|
               modules/(?!local/).*|
               subworkflows/(?!local/).*|
+              data/mtbseq-references/.*|
               .*\.snap$
           )$
       - id: end-of-file-fixer
@@ -23,6 +24,7 @@ repos:
               .*ro-crate-metadata.json$|
               modules/(?!local/).*|
               subworkflows/(?!local/).*|
+              data/mtbseq-references/.*|
               .*\.snap$
           )$
   - repo: https://github.com/seqeralabs/nf-lint-pre-commit
@@ -30,4 +32,9 @@ repos:
     hooks:
       - id: nextflow-lint
         files: '\.nf$|nextflow\.config$'
+        exclude: |
+          (?x)^(
+              modules/(?!local/).*|
+              subworkflows/(?!local/).*
+          )$
         args: ["-output", "json"]
