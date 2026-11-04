@@ -1,0 +1,43 @@
+H37Rv gene	start	stop	type	Rv number	coding strand	associated antibiotic resistance	comment	length	region analyzed in reference collection
+gyrB upstream	4998	5239	intergenic	-	forward	fluoroquinolones (FQ)	-	242	-
+gyrB	5240	7267	CDS	Rv0005	forward	fluoroquinolones (FQ)	-	2028	-
+gyrA upstream	7268	7301	intergenic	-	forward	fluoroquinolones (FQ)	-	34	-
+gyrA	7302	9818	CDS	Rv0006	forward	fluoroquinolones (FQ)	-	2517	-
+mshA upstream	575301	575347	intergenic	-	forward	ethionamide (ETH)	-	47	-
+mshA	575348	576790	CDS	Rv0486	forward	ethionamide (ETH)	-	1443	-
+rpoB upstream	759310	759806	intergenic	-	forward	rifampicin (RMP)	-	497	-
+rpoB	759807	763325	CDS	Rv0667	forward	rifampicin (RMP)	-	3519	-
+rpsL upstream	781312	781559	intergenic	-	forward	streptomycin (SM)	-	248	-
+rpsL	781560	781934	CDS	Rv0682	forward	streptomycin (SM)	-	375	-
+rplC upstream	800793	800808	intergenic	-	forward	linezolid (LZD)	-	16	-
+rplC	800809	801462	CDS	Rv0701	forward	linezolid (LZD)	-	654	-
+rrs upstream	1471743	1471845	intergenic	-	forward	streptomycin (SM)	-	103	-
+rrs	1471846	1473382	rRNA	Rvnr01	forward	streptomycin (SM)	-	1537	-
+rrl upstream	1473383	1473657	intergenic	-	forward	linezolid (LZD)	-	275	-
+rrl	1473658	1476795	rRNA	Rvnr02	forward	linezolid (LZD)	-	3138	-
+fabG1 upstream	1673300	1673439	intergenic	-	forward	isoniazid (INH)	-	140	-
+fabG1	1673440	1674183	CDS	Rv1483	forward	isoniazid (INH)	-	744	-
+inhA upstream	1674184	1674201	intergenic	-	forward	isoniazid (INH) ethionamide (ETH)	-	18	-
+inhA	1674202	1675011	CDS	Rv1484	forward	isoniazid (INH) ethionamide (ETH)	-	810	-
+rpsA upstream	1833380	1833541	intergenic	-	forward	pyrazinamide (PZA)	-	162	-
+rpsA	1833542	1834987	CDS	Rv1630	forward	pyrazinamide (PZA)	-	1446	-
+tlyA	1917940	1918746	CDS	Rv1694	forward	capreomycin (CPR)	-	807	-
+ndh	2101651	2103042	CDS	Rv1854c	reverse	isoniazid (INH) ethionamide (ETH)	-	1392	-
+ndh upstream	2103043	2103183	intergenic	-	reverse	isoniazid (INH) ethionamide (ETH)	-	141	-
+katG	2153889	2156111	CDS	Rv1908c	reverse	isoniazid (INH)	-	2223	-
+katG upstream	2156112	2156148	intergenic	-	reverse	isoniazid (INH)	-	37	-
+pncA	2288681	2289241	CDS	Rv2043c	reverse	pyrazinamide (PZA)	-	561	-
+pncA upstream	2289242	2289281	intergenic	-	reverse	pyrazinamide (PZA)	-	40	-
+eis	2714124	2715332	CDS	Rv2416c	reverse	kanamycin (KAN)	-	1209	-
+eis upstream	2715333	2715471	intergenic	-	reverse	kanamycin (KAN)	-	139	-
+ahpC upstream	2726088	2726192	intergenic	-	forward	isoniazid (INH)	-	105	-
+ahpC	2726193	2726780	CDS	Rv2428	forward	isoniazid (INH)	-	588	-
+thyA	3073680	3074471	CDS	Rv2764c	reverse	para-aminosalicylic acid (PAS)	-	792	-
+thyA upstream	3074472	3074635	intergenic	-	reverse	para-aminosalicylic acid (PAS)	-	164	-
+aftA,embC	4237932	4243147	CDS	Rv3792,Rv3793	forward	ethambutol (EMB)	-	5216	-
+embA upstream	4243148	4243232	intergenic	-	forward	ethambutol (EMB)	-	85	-
+embA,embB	4243233	4249810	CDS	Rv3794,Rv3795	forward	ethambutol (EMB)	-	6578	-
+ethA	4326004	4327473	CDS	Rv3854c	reverse	ethionamide (ETH)	-	1470	-
+ethA upstream	4327474	4327548	intergenic	-	reverse	ethionamide (ETH)	-	75	-
+gidB	4407528	4408202	CDS	Rv3919c	reverse	streptomycin (SM)	-	675	-
+gidB upstream	4408203	4408333	intergenic	-	reverse	streptomycin (SM)	-	131	-

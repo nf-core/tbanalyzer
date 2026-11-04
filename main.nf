@@ -16,6 +16,7 @@
 */
 
 include { TBANALYZER  } from './workflows/tbanalyzer'
+include { MTBSEQ_NF    } from './workflows/mtbseqnf'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
 include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_tbanalyzer_pipeline'
@@ -47,18 +48,32 @@ workflow NFCORE_TBANALYZER {
 
     main:
 
+    multiqc_report = Channel.empty()
+
+    // SELECT MODE:
+
+    // MTBSEQ run mode
+    if (params.mode == "mtbseq") {
+        MTBSEQ_NF (
+            samplesheet
+        )
+        multiqc_report = MTBSEQ_NF.out.multiqc_report
+    }
+    else {
+        error("Unknown --mode '${params.mode}'. Supported modes: 'mtbseq'.")
+    }
+
+    // WORKFLOW: Run generic pipeline (TBANALYZER mode — not yet wired into mode dispatch)
     //
-    // WORKFLOW: Run pipeline
-    //
-    TBANALYZER (
-        samplesheet,
-        params.multiqc_config,
-        params.multiqc_logo,
-        params.multiqc_methods_description,
-        params.outdir,
-    )
+    //TBANALYZER (
+    //    samplesheet,
+    //    params.multiqc_config,
+    //    params.multiqc_logo,
+    //    params.multiqc_methods_description,
+    //    params.outdir,
+    //)
     emit:
-    multiqc_report = TBANALYZER.out.multiqc_report // channel: /path/to/multiqc_report.html
+    multiqc_report = multiqc_report // channel: /path/to/multiqc_report.html
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
